@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from src.sync_tool.hasher import calculate_sha256
+from sync_tool.hasher import calculate_sha256
 
 file_path = Path("config/config.json")
 

@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from src.sync_tool.state import (
+from sync_tool.state import (
     initialise_database,
     get_file_state,
     save_file_state

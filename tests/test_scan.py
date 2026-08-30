@@ -1,6 +1,6 @@
 from pathlib import Path
-from src.sync_tool.config import load_config
-from src.sync_tool.scanner import scan_directory
+from sync_tool.config import load_config
+from sync_tool.scanner import scan_directory
 
 config_path = Path("config/config.json")
 
