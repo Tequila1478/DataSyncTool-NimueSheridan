@@ -13,8 +13,11 @@ def scan_directory(directory: Path, file_types: list[str]):
 
             file_info = path.stat()
 
+            relative_path = path.relative_to(directory)
+
             metadata = FileMetadata(
                 path=path,
+                relative_path=relative_path,
                 size=file_info.st_size,
                 modified_time=file_info.st_mtime
             )

@@ -5,6 +5,7 @@ from pathlib import Path
 class FileMetadata:
     """Class to hold metadata for a file."""
     path: Path
+    relative_path: Path
     size: int
     modified_time: float
 
@@ -14,3 +15,11 @@ class Configuration:
     source_directories: list[Path]
     file_types: list[str]
     server_url: str
+
+@dataclass
+class FileState:
+    """Represents the last successfully synchronised state of a file."""
+
+    size: int
+    modified_time: float
+    sha256: str

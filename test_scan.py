@@ -17,6 +17,7 @@ for directory in configuration.source_directories:
 
     for file in files:
         print("Path:", file.path)
+        print("Relative Path:", file.relative_path)
         print("Size:", file.size)
         print("Modified:", file.modified_time)
         print()
