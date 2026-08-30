@@ -1,0 +1,11 @@
+{
+    "source_directories": [
+        "C:/Users/Nimue/Documents/DataSyncTest"
+    ],
+    "file_types": [
+        ".txt",
+        ".pdf",
+        ".docx"
+    ],
+    "server_url": "https://sync-server.example"
+}
