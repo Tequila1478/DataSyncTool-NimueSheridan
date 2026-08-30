@@ -21,7 +21,10 @@ def load_config(config_path: Path) -> Configuration:
 
         directories.append(path)
 
-    file_types = config_data.get("file_types", [])
+    file_types = []
+
+    for file_type in config_data.get("file_types", []):
+        file_types.append(file_type.lower())
 
     server_url = config_data.get("server_url", "")
     

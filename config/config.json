@@ -4,7 +4,7 @@
     ],
     "file_types": [
         ".txt",
-        ".pdf",
+        ".Pdf",
         ".docx"
     ],
     "server_url": "https://sync-server.example"
