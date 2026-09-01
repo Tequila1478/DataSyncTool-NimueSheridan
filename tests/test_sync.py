@@ -1,3 +1,4 @@
+import sqlite3
 from pathlib import Path
 
 from sync_tool.scanner import scan_directory
@@ -16,29 +17,28 @@ def test_find_changed_files(tmp_path: Path):
 
     initialise_database(database_path)
 
-    files = scan_directory(
-        source_directory,
-        []
-    )
-
+    files = scan_directory(source_directory, [])
     assert len(files) == 1
-
     file = files[0]
 
-    save_file_state(
-        database_path=database_path,
-        source_directory=source_directory,
-        relative_path=file.relative_path,
-        size=file.size + 1,
-        modified_time=file.modified_time,
-        sha256="abc123"
-    )
+    connection = sqlite3.connect(database_path)
+    try:
+        save_file_state(
+            connection=connection,
+            source_directory=source_directory,
+            relative_path=file.relative_path,
+            size=file.size + 1,
+            modified_time=file.modified_time,
+            sha256="abc123"
+        )
 
-    changed_files = find_changed_files(
-        database_path=database_path,
-        source_directory=source_directory,
-        files=files
-    )
+        changed_files = find_changed_files(
+            connection=connection,
+            source_directory=source_directory,
+            files=files
+        )
+    finally:
+        connection.close()
 
     assert len(changed_files) == 1
     assert changed_files[0].relative_path == Path("test.txt")

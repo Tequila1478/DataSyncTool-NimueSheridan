@@ -2,12 +2,12 @@ import sqlite3
 from pathlib import Path
 from .models import FileState
 
+
 def initialise_database(db_path: Path) -> None:
     """Initializes the SQLite database with the required tables."""
     connection = sqlite3.connect(db_path)
     cursor = connection.cursor()
 
-    # Create a table for file metadata
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS files (
             source_directory TEXT NOT NULL,
@@ -15,7 +15,6 @@ def initialise_database(db_path: Path) -> None:
             size INTEGER NOT NULL,
             modified_time REAL NOT NULL,
             sha256 TEXT NOT NULL,
-
             PRIMARY KEY (source_directory, relative_path)
         )
     ''')
@@ -23,13 +22,13 @@ def initialise_database(db_path: Path) -> None:
     connection.commit()
     connection.close()
 
+
 def get_file_state(
-        database_path: Path,
-        source_directory: Path,
-        relative_path: Path
-) ->FileState | None:
+    connection: sqlite3.Connection,
+    source_directory: Path,
+    relative_path: Path
+) -> FileState | None:
     """Retrieves the state of a file from the database."""
-    connection = sqlite3.connect(database_path)
     cursor = connection.cursor()
 
     cursor.execute('''
@@ -39,7 +38,6 @@ def get_file_state(
     ''', (str(source_directory), str(relative_path)))
 
     result = cursor.fetchone()
-    connection.close()
 
     if result is None:
         return None
@@ -50,24 +48,24 @@ def get_file_state(
         sha256=result[2]
     )
 
+
 def save_file_state(
-        database_path: Path,
-        source_directory: Path,
-        relative_path: Path,
-        size: int,
-        modified_time: float,
-        sha256: str
-):
+    connection: sqlite3.Connection,
+    source_directory: Path,
+    relative_path: Path,
+    size: int,
+    modified_time: float,
+    sha256: str
+) -> None:
     """Stores the state of a successfully synchronised file."""
-    connection = sqlite3.connect(database_path)
     cursor = connection.cursor()
 
     cursor.execute('''
         INSERT INTO files (
-            source_directory, 
-            relative_path, 
-            size, 
-            modified_time, 
+            source_directory,
+            relative_path,
+            size,
+            modified_time,
             sha256)
         VALUES (?, ?, ?, ?, ?)
         ON CONFLICT(source_directory, relative_path)
@@ -78,4 +76,3 @@ def save_file_state(
     ''', (str(source_directory), str(relative_path), size, modified_time, sha256))
 
     connection.commit()
-    connection.close()

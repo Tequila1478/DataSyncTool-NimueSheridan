@@ -26,9 +26,19 @@ def load_config(config_path: Path) -> Configuration:
     file_types = []
 
     for file_type in config_data.get("file_types", []):
-        file_types.append(file_type.lower())
+        file_type = file_type.lower()
+        if not file_type.startswith("."):
+            file_types = "." + file_types
+        file_types.append(file_type)
 
     server_url = config_data.get("server_url", "")
+
+    """Set dictionary input"""
+    values = {
+        "source_directories": directories,
+        "file_types": file_types,
+        "server_url": server_url
+    }
 
     if "chunk_size" in config_data:
         chunk_size = config_data["chunk_size"]
@@ -40,15 +50,6 @@ def load_config(config_path: Path) -> Configuration:
         if chunk_size <= 0:
             raise ValueError("Chunk size must be greater than zero.")
 
-        return Configuration(
-            source_directories=directories,
-            file_types=file_types,
-            server_url=server_url,
-            chunk_size=chunk_size
-        )
+        values["chunk_size"] = chunk_size
 
-    return Configuration(
-        source_directories=directories,
-        file_types=file_types,
-        server_url=server_url
-    )
+    return Configuration(**values)

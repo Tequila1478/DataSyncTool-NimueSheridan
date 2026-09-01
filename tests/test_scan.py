@@ -1,23 +1,30 @@
 from pathlib import Path
+
 from sync_tool.config import load_config
 from sync_tool.scanner import scan_directory
 
-config_path = Path("config/config.json")
 
-configuration = load_config(config_path)
+def test_scan_directory_matches_configured_file_types(tmp_path: Path):
+    source_directory = tmp_path / "source"
+    source_directory.mkdir()
 
-for directory in configuration.source_directories:
+    (source_directory / "keep.txt").write_text("kept")
+    (source_directory / "skip.md").write_text("skipped")
 
-    print("Scanning:", directory)
+    config_path = tmp_path / "config.json"
+    config_path.write_text(f"""
+    {{
+        "source_directories": ["{source_directory.as_posix()}"],
+        "file_types": [".txt"],
+        "server_url": "http://localhost:8000"
+    }}
+    """)
 
-    files = scan_directory(
-        directory,
-        configuration.file_types
-    )
+    configuration = load_config(config_path)
 
-    for file in files:
-        print("Path:", file.path)
-        print("Relative Path:", file.relative_path)
-        print("Size:", file.size)
-        print("Modified:", file.modified_time)
-        print()
+    files = []
+    for directory in configuration.source_directories:
+        files.extend(scan_directory(directory, configuration.file_types))
+
+    assert len(files) == 1
+    assert files[0].relative_path == Path("keep.txt")

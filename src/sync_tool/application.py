@@ -21,3 +21,17 @@ def scan_configured_directories(
         files.extend(directory_files)
 
     return files
+
+if __name__ == "__main__":
+    import sys
+    from pathlib import Path
+    from .config import load_config
+
+    config_path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("config/config.json")
+    configuration = load_config(config_path)
+
+    files = scan_configured_directories(configuration)
+
+    print(f"Found {len(files)} file(s) matching configuration:")
+    for file in files:
+        print(f"  {file.relative_path}  ({file.size} bytes)")
