@@ -1,10 +1,12 @@
-from pathlib import Path
+"""Tests for the application layer of the synchronization tool."""
 
+from pathlib import Path
 from sync_tool.application import scan_configured_directories
 from sync_tool.models import Configuration
 
 
 def test_scan_configured_directories(tmp_path: Path):
+    """Tests that the scan_configured_directories function correctly scans directories and retrieves file metadata."""
 
     source_directory = tmp_path / "source"
     source_directory.mkdir()

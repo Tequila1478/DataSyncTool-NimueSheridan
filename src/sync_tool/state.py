@@ -1,7 +1,8 @@
+"""Manages the state of files in the synchronization process using an SQLite database."""
+
 import sqlite3
 from pathlib import Path
 from .models import FileState
-
 
 def initialise_database(db_path: Path) -> None:
     """Initializes the SQLite database with the required tables."""
@@ -21,7 +22,6 @@ def initialise_database(db_path: Path) -> None:
 
     connection.commit()
     connection.close()
-
 
 def get_file_state(
     connection: sqlite3.Connection,
@@ -47,7 +47,6 @@ def get_file_state(
         modified_time=result[1],
         sha256=result[2]
     )
-
 
 def save_file_state(
     connection: sqlite3.Connection,
@@ -76,3 +75,9 @@ def save_file_state(
     ''', (str(source_directory), str(relative_path), size, modified_time, sha256))
 
     connection.commit()
+
+def get_database_connection(db_path: Path) -> sqlite3.Connection:
+    """Ensures the database exists and returns an open connection to it."""
+    db_path.parent.mkdir(exist_ok=True)
+    initialise_database(db_path)
+    return sqlite3.connect(db_path)

@@ -1,3 +1,5 @@
+"""Determines if a file has changed based on its metadata and the last known state."""
+
 from .models import FileState, FileMetadata
 
 def has_changed(current_file: FileMetadata, previous_state: FileState) -> bool:

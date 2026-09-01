@@ -1,3 +1,5 @@
+"""Provides functionality to calculate the SHA-256 hash of a file."""
+
 from pathlib import Path
 import hashlib
 

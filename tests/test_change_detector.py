@@ -1,10 +1,12 @@
-from pathlib import Path
+"""Tests for the change detection logic of the synchronization tool."""
 
+from pathlib import Path
 from sync_tool.change_detector import has_changed
 from sync_tool.models import FileMetadata, FileState
 
 
 def test_new_file_is_changed():
+    """Tests that a new file (with no previous state) is considered changed."""
     current_file = FileMetadata(
         path=Path("test.txt"),
         relative_path=Path("test.txt"),
@@ -21,6 +23,7 @@ def test_new_file_is_changed():
 
 
 def test_unchanged_file_is_not_changed():
+    """Tests that a file with the same size and modified time as its previous state is not considered changed."""
     current_file = FileMetadata(
         path=Path("test.txt"),
         relative_path=Path("test.txt"),
@@ -43,6 +46,7 @@ def test_unchanged_file_is_not_changed():
 
 
 def test_file_with_different_size_is_changed():
+    """Tests that a file with a different size than its previous state is considered changed."""
     current_file = FileMetadata(
         path=Path("test.txt"),
         relative_path=Path("test.txt"),
@@ -65,6 +69,7 @@ def test_file_with_different_size_is_changed():
 
 
 def test_file_with_different_modified_time_is_changed():
+    """Tests that a file with a different modified time than its previous state is considered changed."""
     current_file = FileMetadata(
         path=Path("test.txt"),
         relative_path=Path("test.txt"),

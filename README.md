@@ -13,6 +13,8 @@ It was also a relatively simple part of the project to implement while still sho
 # Current Implementation
 Directory scanning (independent of watcher), configuration loading (independent of GUI), Metadata Tracking, SHA-256 Hashing and local synchronisation state
 
+Every run currently reports all matching files as needing sync, since state is only persisted after a real transfer completes, which isn't implemented yet. This is intentional, not a bug, see the Reliability section in the design document. To see how the unchanged -> Skipped pipeline works please see `test_file_is_not_flagged_after_state_is_saved`. I did not want to implement saving the state as sync as this should be confirmed by the server side once the transfer is completed.
+
 # How to Run
 1. Create and activate a virtual environment:
 ```python

@@ -1,10 +1,12 @@
+"""Tests for the state management module of the synchronization tool."""
+
 import sqlite3
 from pathlib import Path
-
 from sync_tool.state import initialise_database, get_file_state, save_file_state
 
 
 def test_save_and_retrieve_file_state(tmp_path: Path):
+    """Tests that saving and retrieving file state works correctly."""
     database_path = tmp_path / "sync_state.db"
     source_directory = tmp_path / "source"
     relative_path = Path("test.txt")

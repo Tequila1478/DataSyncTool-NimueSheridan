@@ -1,3 +1,5 @@
+"""Defines data models for the synchronization tool."""
+
 from dataclasses import dataclass
 from pathlib import Path
 

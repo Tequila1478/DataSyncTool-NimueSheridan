@@ -1,5 +1,6 @@
-from pathlib import Path
+"""Scans directories and retrieves metadata for files of specified types."""
 
+from pathlib import Path
 from .models import FileMetadata
 
 def scan_directory(directory: Path, file_types: list[str]):

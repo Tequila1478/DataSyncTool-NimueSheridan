@@ -1,10 +1,12 @@
-from pathlib import Path
+"""Tests for the scanner module of the synchronization tool."""
 
+from pathlib import Path
 from sync_tool.config import load_config
 from sync_tool.scanner import scan_directory
 
 
 def test_scan_directory_matches_configured_file_types(tmp_path: Path):
+    """Tests that the scan_directory function correctly matches files based on the configured file types."""
     source_directory = tmp_path / "source"
     source_directory.mkdir()
 

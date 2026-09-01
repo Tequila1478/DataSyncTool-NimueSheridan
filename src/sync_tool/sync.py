@@ -1,3 +1,5 @@
+"""Synchronisation logic for the tool."""
+
 import sqlite3
 from pathlib import Path
 from .change_detector import has_changed
