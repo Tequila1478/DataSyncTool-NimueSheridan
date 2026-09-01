@@ -3,7 +3,10 @@
         "C:/Users/Nimue/Documents/DataSyncTest"
     ],
     "file_types": [
-     
+        ".txt",
+        ".pdf",
+        ".docx"
     ],
-    "server_url": "https://sync-server.example"
+    "server_url": "https://sync-server.example",
+    "chunk_size": 8388608
 }

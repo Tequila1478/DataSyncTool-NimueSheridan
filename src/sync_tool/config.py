@@ -3,8 +3,10 @@ from pathlib import Path
 
 from .models import Configuration
 
+
 def load_config(config_path: Path) -> Configuration:
     """Loads the configuration from a JSON file."""
+
     with open(config_path, "r") as file:
         config_data = json.load(file)
 
@@ -27,7 +29,26 @@ def load_config(config_path: Path) -> Configuration:
         file_types.append(file_type.lower())
 
     server_url = config_data.get("server_url", "")
-    
-    return Configuration(source_directories=directories, file_types=file_types, server_url=server_url)
 
-    
+    if "chunk_size" in config_data:
+        chunk_size = config_data["chunk_size"]
+
+
+        if not isinstance(chunk_size, int):
+            raise ValueError("Chunk size must be an integer.")
+
+        if chunk_size <= 0:
+            raise ValueError("Chunk size must be greater than zero.")
+
+        return Configuration(
+            source_directories=directories,
+            file_types=file_types,
+            server_url=server_url,
+            chunk_size=chunk_size
+        )
+
+    return Configuration(
+        source_directories=directories,
+        file_types=file_types,
+        server_url=server_url
+    )

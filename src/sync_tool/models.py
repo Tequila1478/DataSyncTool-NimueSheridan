@@ -15,6 +15,7 @@ class Configuration:
     source_directories: list[Path]
     file_types: list[str]
     server_url: str
+    chunk_size: int = 8 * 1024 * 1024  # Default chunk size of 8 MiB
 
 @dataclass
 class FileState:

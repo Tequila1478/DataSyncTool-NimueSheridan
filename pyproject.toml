@@ -5,6 +5,10 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "data-sync-tool"
 version = "0.1.0"
+dependencies = [
+    "fastapi",
+    "uvicorn"
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
